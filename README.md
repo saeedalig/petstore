@@ -256,7 +256,7 @@ pipeline{
             steps{
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner \
-					-Dsonar.projectName=Petstore \
+		    -Dsonar.projectName=Petstore \
                     -Dsonar.projectKey=Petstore'''
                 }
             }
@@ -311,7 +311,7 @@ pipeline{
 						disableHostKeyChecking: true, 
 						installation: 'ansible', 
 						inventory: '/etc/ansible/', 
-						playbook: 'kubernetes.yaml'
+						playbook: 'kube.yaml'
                     }
                 } 
             }
