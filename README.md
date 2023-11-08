@@ -34,3 +34,27 @@ docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 ```
 You can access Sonarqube on port `9000`. Username and Password is same `admin`
 
+- **Trivy**
+
+```
+
+sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install trivy -y
+
+```
+
+- **Ansible**
+```
+
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible -y
+
+```
+
+- **Install Plugins like JDK, Sonarqube Scanner, Maven, OWASP Dependency Check, Docker, Ansible Kubernetes and others if required and configure them.**
+
