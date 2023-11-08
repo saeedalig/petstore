@@ -69,9 +69,9 @@ sudo apt install ansible -y
 
  and **configure** them.
 
-- **Kuberenetes Setup (kubeadm) -> Master and Worker Node**
+- ## Kuberenetes Setup (kubeadm) -> Master and Worker Node
   
-**Installing Kubectl""
+**Installing Kubectl**
 ```
 sudo apt update
 sudo apt install curl
