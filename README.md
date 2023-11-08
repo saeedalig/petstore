@@ -58,7 +58,7 @@ sudo apt install ansible -y
 
 ```
 
-- **Install Plugins** like
+- **Install Plugins** 
     - JDK
     - Sonarqube Scanner
     - Maven
@@ -79,6 +79,7 @@ curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
+
 
 **Commands to be executed on both master and worker node**
 ```
@@ -139,7 +140,7 @@ Also, add the public ip of kubernetes master node in ansible hosts file
 sudo vi /etc/ansible/hosts
 
 # Add
-[k8s]            for k8s
+[k8s]            # for k8s
 54.232.200.77
 
 [docker]     # for docker build nad push
@@ -287,7 +288,7 @@ pipeline{
             }
         }
 		
-		stage('k8s deployment using Ansible'){
+	stage('k8s deployment using Ansible'){
             steps{
                 dir('ansible-plays'){
                     script{
@@ -304,6 +305,7 @@ pipeline{
 }
 
 ```
+
 
 
 
