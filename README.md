@@ -7,6 +7,8 @@ Developers collaborate using Git for version control and code management. When c
 
 Upon successful war file generation, Ansible is employed to create a Docker image, subsequently pushed to DockerHub. Kubernetes deployment manifests are prepared and services defined for application exposure. Ansible for Kubernetes is used to apply these manifests.
 
+![Alt text](static/pic1.png)
+
 
 
 
@@ -319,6 +321,10 @@ pipeline{
 
 ```
 
+![Alt text](static/pic2.png)
 
+![Alt text](static/pic3.png)
+
+![Alt text](static/pic4.png)
 
 
