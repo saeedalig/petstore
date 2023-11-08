@@ -17,3 +17,25 @@ sudo apt-get install jenkins -y
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 ```
+
+- **Docker**
+```
+sudo apt-get update
+sudo apt-get install docker.io -y
+sudo usermod -aG docker $USER   #my case is ubuntu
+newgrp docker
+sudo chmod 777 /var/run/docker.sock
+
+```
+
+- **Sonarqube**
+```
+docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+
+# Access on port 9000
+# Username  
+admin
+# Password
+admin
+```
+
