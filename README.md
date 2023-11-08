@@ -137,10 +137,66 @@ Also, add the public ip of kubernetes master node in ansible hosts file
 sudo vi /etc/ansible/hosts
 
 # Add
+[k8s]            for k8s
+54.232.200.77
+
 [docker]     # for docker build nad push
 3.227.102.13
 
-[k8s]            for k8s
-54.232.200.77
+# Test connection
+ansible -m ping k8s
+ansible -m ping all    
+
 ```
+
+**Ansible playbook for Kubernetes deployment.**
+```
+---
+- name: Deploy Kubernetes Application
+  hosts: k8s  # Replace with your target Kubernetes master host or group
+  gather_facts: yes  # Gather facts about the target host
+
+  tasks:
+    - name: Copy deployment.yaml to Kubernetes master
+      copy:
+        src: /var/lib/jenkins/workspace/petstore/deployment.yaml  # Jenkins workspace
+        dest: /home/ubuntu/
+      become: yes  # Use sudo for copying if required
+      become_user: root  # Use a privileged user for copying if required
+
+    - name: Apply Deployment
+      command: kubectl apply -f /home/ubuntu/deployment.yaml
+```
+
+**Ansible playbook for Docker Image.**
+```
+- name: Docker build and push
+  hosts: docker  # Replace with the hostname or IP address of your target server
+  become: yes  # Run tasks with sudo privileges
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes   
+
+    - name: Build Docker Image
+      command: docker build -t petstore .
+      args:
+        chdir: /var/lib/jenkins/workspace/petstore
+
+    - name: Tag Image
+      command: docker tag petstore:latest asa96/petstore:latest 
+
+    - name: Log in to Docker Hub
+      community.docker.docker_login:
+        registry_url: https://index.docker.io/v1/
+        username: asa96
+        password: <docker pat>
+
+    - name: Push image
+      command: docker push asa96/petstore:latest
+
+
+```
+
 
