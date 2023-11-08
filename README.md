@@ -1,5 +1,7 @@
 #### Deploying a Java-based application called "Petstore" using a Continuous Integration/Continuous Deployment (CI/CD) pipeline with Jenkins and deploying it on a Kubernetes cluster. The goal is to automate the build, test, and deployment processes to ensure a streamlined and reliable deployment of the application.
 
+## Workflow of Project
+
 
 ## Server Setup (Installation)
 - **AWS EC2 Instance:** t2.medium 
@@ -56,5 +58,13 @@ sudo apt install ansible -y
 
 ```
 
-- **Install Plugins like JDK, Sonarqube Scanner, Maven, OWASP Dependency Check, Docker, Ansible Kubernetes and others if required and configure them.**
+- **Install Plugins** like
+    - JDK,
+    - Sonarqube Scanner,
+    - Maven,
+    - OWASP Dependency Check,
+    - Docker,
+    - Ansible
+    - Kubernetes
+  and **configure** them.
 
