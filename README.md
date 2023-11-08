@@ -334,4 +334,6 @@ Grab the service port to access the application.
 
 ![Alt text](static/pic4.png)
 
+**Congratulations for successful deployment of the application in kubernetes cluster using Jenkins CICD Pipeline!!!!!**
+
 
