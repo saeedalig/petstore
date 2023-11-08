@@ -59,12 +59,13 @@ sudo apt install ansible -y
 ```
 
 - **Install Plugins** like
-    - JDK,
-    - Sonarqube Scanner,
-    - Maven,
-    - OWASP Dependency Check,
-    - Docker,
+    - JDK
+    - Sonarqube Scanner
+    - Maven
+    - OWASP Dependency Check
+    - Docker
     - Ansible
     - Kubernetes
-  and **configure** them.
+
+ and **configure** them.
 
