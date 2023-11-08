@@ -79,7 +79,7 @@ curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
-** Commands to be executed on both master and worker node**
+**Commands to be executed on both master and worker node**
 ```
 sudo apt-get update 
 
@@ -115,7 +115,7 @@ sudo kubeadm join <master-node-ip>:<master-node-port> --token <token> --discover
 ```
 
 ## Kubernetes and Ansible Integration
-Since I am deploying the petstore applicationon kubernetes cluster using Ansible Playbook, so to communicate with the Kubernetes clients we have to generate an SSH key on the ansible server
+Since I am deploying the petstore applicationon on kubernetes cluster using Ansible Playbook, so to communicate with the Kubernetes clients we have to generate an SSH key on the ansible server
 and exchange it with kubernetes Master server.
 
 ```
@@ -128,7 +128,19 @@ cat id_rsa.pub  # copy this public key
 cd .ssh #on k8s master 
 sudo vi authorized_keys    # Paste the opied public key here
 
-# verify the connection
+# verify the ssh connection
 ssh ubuntu@<public-ip-k8s-master>
 
 ```
+Also, add the public ip of kubernetes master node in ansible hosts file 
+```
+sudo vi /etc/ansible/hosts
+
+# Add
+[docker]     # for docker build nad push
+3.227.102.13
+
+[k8s]            for k8s
+54.232.200.77
+```
+
