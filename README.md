@@ -31,11 +31,6 @@ sudo chmod 777 /var/run/docker.sock
 - **Sonarqube**
 ```
 docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
-
-# Access on port 9000
-# Username  
-admin
-# Password
-admin
 ```
+You can access Sonarqube on port `9000`. Username and Password is same `admin`
 
