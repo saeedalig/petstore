@@ -1,6 +1,13 @@
 #### Deploying a Java-based application called "Petstore" using a Continuous Integration/Continuous Deployment (CI/CD) pipeline with Jenkins and deploying it on a Kubernetes cluster. The goal is to automate the build, test, and deployment processes to ensure a streamlined and reliable deployment of the application.
 
 ## Workflow of Project
+In this project I am utilizing **Git, Webhooks, Jenkins, SonarQube, Maven, Trivy, OWASP, Docker, Kubernetes, and Ansible**. 
+
+Developers collaborate using Git for version control and code management. When code changes are pushed to the Git repository, it triggers Jenkins pipeline through webhooks integrated with Jenkins. Jenkins manages Continuous Integration (CI), encompassing building, testing and packaging the application with Maven. SonarQube analyzes code quality and quality gates. Trivy is used for scanning the File System whereas OWASP for dependency check. By integrating SonarQube, Trivy, and OWASP into your workflow, you can address code quality, file security, and web application security comprehensively, improving the overall security posture of the project.
+
+Upon successful war file generation, Ansible is employed to create a Docker image, subsequently pushed to DockerHub. Kubernetes deployment manifests are prepared and services defined for application exposure. Ansible for Kubernetes is used to apply these manifests.
+
+
 
 
 ## Server Setup (Installation)
@@ -259,6 +266,12 @@ pipeline{
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
                 }
             } 
+        }
+
+	stage ('Build War File'){
+            steps{
+                sh 'mvn clean install -DskipTests=true'
+            }
         }
 
         stage('OWASP FS SCAN') {
