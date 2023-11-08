@@ -323,7 +323,14 @@ pipeline{
 
 ![Alt text](static/pic2.png)
 
+Verify the kubernetes resources
+```
+kubectl get all
+```
+
 ![Alt text](static/pic3.png)
+
+Grab the service port to access the application.
 
 ![Alt text](static/pic4.png)
 
