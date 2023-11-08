@@ -79,6 +79,7 @@ curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
+
 **Commands to be executed on both master and worker node**
 ```
 sudo apt-get update 
@@ -132,6 +133,7 @@ sudo vi authorized_keys    # Paste the opied public key here
 ssh ubuntu@<public-ip-k8s-master>
 
 ```
+
 Also, add the public ip of kubernetes master node in ansible hosts file 
 ```
 sudo vi /etc/ansible/hosts
@@ -148,6 +150,7 @@ ansible -m ping k8s
 ansible -m ping all    
 
 ```
+
 
 **Ansible playbook for Kubernetes deployment.**
 ```
@@ -167,6 +170,7 @@ ansible -m ping all
     - name: Apply Deployment
       command: kubectl apply -f /home/ubuntu/deployment.yaml
 ```
+
 
 **Ansible playbook for Docker Image.**
 ```
@@ -196,7 +200,110 @@ ansible -m ping all
     - name: Push image
       command: docker push asa96/petstore:latest
 
+```
+
+## Pipeline Script
 
 ```
+pipeline{
+    agent any
+    tools{
+        jdk 'jdk17'
+        maven 'maven3'
+    }
+	
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+	
+    stages {
+	
+        stage('Clean Workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+		
+        stage('Git Checkout'){
+            steps{
+                git branch: 'main', url: ''
+            }
+        }
+		
+		stage ('MVN Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+		
+        stage ('MVN Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+		
+        stage('Sonarqube Code Analysis'){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner \
+					-Dsonar.projectName=Petstore \
+                    -Dsonar.projectKey=Petstore'''
+                }
+            }
+        }
+		
+        stage('Quality Gate Status'){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+                }
+            } 
+        }
+
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+		
+        stage('Scan Files: TRIVY') {
+            steps {
+                sh "trivy fs . > trivy-fs.txt"
+            }
+        }
+		
+        stage ("Docker Build & Tag") {
+            steps {
+                dir('ansible-plays'){
+					script {
+						ansiblePlaybook credentialsId: 'ssh', 
+						disableHostKeyChecking: true, 
+						installation: 'ansible', 
+						inventory: '/etc/ansible/', 
+						playbook: 'docker.yaml'
+					}
+				}
+            }
+        }
+		
+		stage('k8s deployment using Ansible'){
+            steps{
+                dir('ansible-plays'){
+                    script{
+                        ansiblePlaybook credentialsId: 'ssh', 
+						disableHostKeyChecking: true, 
+						installation: 'ansible', 
+						inventory: '/etc/ansible/', 
+						playbook: 'kubernetes.yaml'
+                    }
+                } 
+            }
+        }	
+   }
+}
+
+```
+
 
 
