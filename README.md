@@ -1,9 +1,9 @@
-## Deploying a Java-based application called "Petstore" using a Continuous Integration/Continuous Deployment (CI/CD) pipeline with Jenkins and deploying it on a Kubernetes cluster. The goal is to automate the build, test, and deployment processes to ensure a streamlined and reliable deployment of the application.
+### Deploying a Java-based application called "Petstore" using a CI/CD pipeline with Jenkins and deploying it on a Kubernetes cluster. The goal is to automate the build, test, and deployment processes to ensure a streamlined and reliable deployment of the application.
 
 ## Workflow of Project
 In this project I am utilizing **Git, Webhooks, Jenkins, SonarQube, Maven, Trivy, OWASP, Docker, Kubernetes, and Ansible**. 
 
-Developers collaborate using Git for version control and code management. When code changes are pushed to the Git repository, it triggers Jenkins pipeline through webhooks integrated with Jenkins. Jenkins manages Continuous Integration (CI), encompassing building, testing and packaging the application with Maven. SonarQube analyzes code quality and quality gates. Trivy is used for scanning the File System whereas OWASP for dependency check. By integrating SonarQube, Trivy, and OWASP into your workflow, you can address code quality, file security, and web application security comprehensively, improving the overall security posture of the project.
+Developers collaborate using Git for version control and code management. When code changes are pushed to the Git repository, it triggers Jenkins pipeline through webhook integrated with Jenkins. Jenkins manages Continuous Integration (CI), encompassing building, testing and packaging the application with Maven. SonarQube analyzes code quality and quality gates. Trivy is used for scanning the File System whereas OWASP for dependency check. By integrating SonarQube, Trivy, and OWASP into your workflow, you can address code quality, file security, and web application security comprehensively, improving the overall security posture of the project.
 
 Upon successful war file generation, Ansible is employed to create a Docker image, subsequently pushed to DockerHub. Kubernetes deployment manifests are prepared and services defined for application exposure. Ansible for Kubernetes is used to apply these manifests.
 
@@ -13,7 +13,8 @@ Upon successful war file generation, Ansible is employed to create a Docker imag
 
 
 ## Server Setup (Installation)
-- **AWS EC2 Instance:** t2.medium 
+- **AWS EC2 Instance:** t2.medium
+- 
 - **Jenkins**
 ```
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
@@ -46,9 +47,7 @@ docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 You can access Sonarqube on port `9000`. Username and Password is same `admin`
 
 - **Trivy**
-
 ```
-
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
 echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
